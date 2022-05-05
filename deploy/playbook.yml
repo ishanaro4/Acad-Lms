@@ -1,6 +1,6 @@
 ---
 - name: Pull and Run docker image
-  hosts: localhost
+  hosts: all
   tasks:
     - name: copy docker compose file from folder to remote host
       copy:
