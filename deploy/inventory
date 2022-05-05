@@ -1,0 +1,1 @@
+localhost ansible_user=ishanaro4 ansible_python_interpreter=/usr/bin/python3
