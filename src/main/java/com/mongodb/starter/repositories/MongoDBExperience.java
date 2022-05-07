@@ -92,8 +92,8 @@ public class MongoDBExperience implements ExperienceRepository {
     }
 
     @Override
-    public long delete(String id) {
-        return experienceCollection.deleteOne(eq("_id", new ObjectId(id))).getDeletedCount();
+    public long delete(String username) {
+        return experienceCollection.deleteOne(eq("username", username)).getDeletedCount();
     }
 
     @Override

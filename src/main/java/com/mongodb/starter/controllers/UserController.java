@@ -44,21 +44,6 @@ public class UserController {
         this.placementMatRepository = placementMatRepository;
     }
 
-    /*@PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody ApplicationUser user) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
-
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(new UserInfoResponse(userDetails.getId(),
-                        userDetails.getUsername(),
-                        userDetails.getEmail(),
-                        roles));
-
-    }*/
 
     @PostMapping("/signup")
     public ResponseEntity<?> register(@RequestBody ApplicationUser user) {
@@ -77,15 +62,10 @@ public class UserController {
     }
     @GetMapping("/profile")
     public ResponseEntity<ApplicationUser> getProfile(Authentication authentication) {
-        if(authentication.isAuthenticated()){
             DefaultClaims ans = (DefaultClaims) authentication.getPrincipal();
             String name = ans.getSubject();
             ApplicationUser user = applicationUserRepository.findOne(name);
             return ResponseEntity.ok(user);
-        }
-        else{
-            return ResponseEntity.status(HttpStatus.NON_AUTHORITATIVE_INFORMATION).build();
-        }
 
     }
 
@@ -121,6 +101,10 @@ public class UserController {
     @PostMapping("/placementMaterial")
     public PlacementMaterial postMaterial(@RequestBody PlacementMaterial mat){
         return placementMatRepository.save(mat);
+    }
+    @DeleteMapping("/deleteUsers")
+    public Long deletePersons() {
+        return applicationUserRepository.deleteAll();
     }
 
 

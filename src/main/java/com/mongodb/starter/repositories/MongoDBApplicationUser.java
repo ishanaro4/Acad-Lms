@@ -94,8 +94,8 @@ public class MongoDBApplicationUser implements ApplicationUserRepository {
     }
 
     @Override
-    public long delete(String id) {
-        return userCollection.deleteOne(eq("_id", new ObjectId(id))).getDeletedCount();
+    public long delete(String username) {
+        return userCollection.deleteOne(eq("username", username)).getDeletedCount();
     }
 
     @Override
