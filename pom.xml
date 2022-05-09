@@ -37,7 +37,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.boot</groupId>-->
+<!--                    <artifactId>spring-boot-starter-logging</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
@@ -115,6 +120,16 @@
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.logging.log4j</groupId>-->
+<!--            <artifactId>log4j-api</artifactId>-->
+<!--            <version>2.14.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.logging.log4j</groupId>-->
+<!--            <artifactId>log4j-core</artifactId>-->
+<!--            <version>2.14.0</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

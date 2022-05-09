@@ -7,6 +7,7 @@ import com.mongodb.WriteConcern;
 import com.mongodb.client.ClientSession;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.ReplaceOneModel;
 import com.mongodb.client.model.WriteModel;
@@ -73,7 +74,19 @@ public class MongoDBExperience implements ExperienceRepository {
 
     @Override
     public List<Experience> findAll() {
-        return experienceCollection.find().into(new ArrayList<>());
+        MongoCursor<Experience> cursor = experienceCollection.find().iterator();//.into(new ArrayList<>());
+        ArrayList<Experience> list = new ArrayList<>();
+        list = experienceCollection.find().into(new ArrayList<>());
+        try {
+            while(cursor.hasNext()) {
+                if(!(cursor.next().getExp()=="")){
+                    list.add(cursor.next());
+                }
+            }
+        } finally {
+            cursor.close();
+        }
+        return list;
     }
 
     @Override

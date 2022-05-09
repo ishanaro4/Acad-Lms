@@ -3,6 +3,8 @@ package com.mongodb.starter.configuration;
 import com.mongodb.starter.services.ApplicationUserDetailsService;
 import com.mongodb.starter.security.AuthenticationFilter;
 import com.mongodb.starter.security.AuthorizationFilter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,7 +24,7 @@ import static com.mongodb.starter.constants.SecurityConstants.SIGN_UP_URL;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
+    //private  final Logger logger = LogManager.getLogger(SecurityConfiguration.class);
     private ApplicationUserDetailsService userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -33,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //logger.info("Entered SecurityConfiguration class configure method");
         http
                 // ...
                 .csrf().disable();
@@ -43,6 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilter(new AuthenticationFilter(authenticationManager()))
                 .addFilter(new AuthorizationFilter(authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //logger.info("Exit SecurityConfiguration class configure method");
     }
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

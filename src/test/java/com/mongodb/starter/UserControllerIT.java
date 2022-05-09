@@ -128,6 +128,34 @@ class UserControllerIT {
         assertThat(result1.getBody().getUsername()).isEqualTo(testHelper.getShivam().getUsername());
     }
 
+    @DisplayName("PUT /profile")
+    @Test
+    void putProfile() throws Exception {
+        // GIVEN
+        postUser();
+        //ObjectId idInserted = personInserted.getId();
+        ResponseEntity<String> result = rest.postForEntity("http://localhost:" + port +  "/login", testHelper.getShivam(), String.class);
+        // WHEN
+        //System.out.println(result.getStatusCode());
+        //System.out.println(result.getHeaders().get("token"));
+        String token=result.getHeaders().get("token").get(0);
+        // String basicDigestHeaderValue = "Basic " + new String(Base64.encodeBase64(("ishan:").getBytes()));
+        // MvcResult result =  mvc.perform(get(URL + "/profile").
+        //ResponseEntity<ApplicationUser> result1 = rest.withBasicAuth(testHelper.getShivam().getUsername(),testHelper.getShivam().getPassword()).getForEntity(URL + "/profile", ApplicationUser.class);
+        // THEN
+        ApplicationUser user = applicationUserRepository.findOne(testHelper.getShivam().getUsername());
+        user.setDescription("put method is working");
+        user.setMobile(5678);
+        HttpHeaders httpHeaders=new HttpHeaders();
+        httpHeaders.put("Authorization",result.getHeaders().get("token"));
+        HttpEntity<?> httpEntity=new HttpEntity<>(user,httpHeaders);
+        ResponseEntity<ApplicationUser> result1=rest.exchange(URL + "/profile",HttpMethod.PUT,httpEntity,new ParameterizedTypeReference<ApplicationUser>() {
+        });
+        //System.out.println(result1.getBody());
+        assertThat(result1.getStatusCode()).isEqualTo(HttpStatus.OK);
+        //assertThat(result1.getBody().getUsername()).isEqualTo(testHelper.getShivam().getUsername());
+    }
+
     private void createUserCollectionIfNotPresent(MongoClient mongoClient) {
         // This is required because it is not possible to create a new collection within a multi-documents transaction.
         // Some tests start by inserting 2 documents with a transaction.
